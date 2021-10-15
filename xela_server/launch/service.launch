@@ -8,7 +8,7 @@
     <param name="param" value="$(arg port)"/>
     <param name="param" value="$(arg ip)"/>
     <param name="param" value="$(arg d)"/>
-    <node pkg="xela_server" type="setup_interface" name="setup_interface" required="true" args="$(arg can_interface)"/>
+    <node pkg="xela_server" type="setup_interface" name="setup_interface" args="$(arg can_interface)"/>
     <node pkg="xela_server" type="xela_server" name="xela_server" required="true" args="-f $(arg file) --port $(arg port) --ip $(arg ip)" />
     <node pkg="xela_server" type="xela_service" name="xela_service" respawn="true" args="--port $(arg port) --ip $(arg ip) -d $(arg d)" />
 </launch>
