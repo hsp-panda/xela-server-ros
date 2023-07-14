@@ -3,12 +3,19 @@
     <arg name="port" default="5000"/>
     <arg name="ip" default="127.0.0.1"/>
     <arg name="d" default="0"/>
-    <arg name="can_interface" default="can0"/>
+    <arg name="can_interface" default="slcan0"/>
+    <arg name="slcand_usb_interface" default="/dev/ttyUSB0"/>
+    <arg name="use_vscom" default="true"/>
     <param name="param" value="$(arg file)"/>
     <param name="param" value="$(arg port)"/>
     <param name="param" value="$(arg ip)"/>
     <param name="param" value="$(arg d)"/>
-    <node pkg="xela_server" type="setup_interface" name="setup_interface" args="$(arg can_interface)"/>
+    <group if="$(arg use_vscom)">
+        <node pkg="xela_server" type="setup_interface_vscom" name="setup_interface" args="$(arg can_interface) $(arg slcand_usb_interface)"/>
+    </group>
+    <group unless="$(arg use_vscom)">
+        <node pkg="xela_server" type="setup_interface_esd" name="setup_interface" args="$(arg can_interface)"/>
+    </group>
     <node pkg="xela_server" type="xela_server" name="xela_server" required="true" args="-f $(arg file) --port $(arg port) --ip $(arg ip)" />
     <node pkg="xela_server" type="xela_service" name="xela_service" respawn="true" args="--port $(arg port) --ip $(arg ip) -d $(arg d)" />
 </launch>
