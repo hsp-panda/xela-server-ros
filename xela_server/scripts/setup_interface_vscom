@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+sudo slcand -o -c -f -s8 -t hw -S 3000000 $2
+sudo ip link set $1 txqueuelen 1000
+sudo ip link set $1 up
+sleep 3
